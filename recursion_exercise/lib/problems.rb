@@ -11,9 +11,12 @@
 # pow(2, 5) # => 32
 # pow(3, 4) # => 81
 # pow(4, 3) # => 64
-def pow(base, exponent)
 
+def pow(base, exponent)
+    return 1 if exponent == 0
+    base * pow(base, exponent - 1)
 end
+
 
 
 # Write a method, lucas_number(n), that takes in a number.
@@ -34,8 +37,11 @@ end
 # lucas_number(3)   # =>    4
 # lucas_number(5)   # =>    11
 # lucas_number(9)   # =>    76
-def lucas_number(n)
 
+def lucas_number(n)
+    return 2 if n == 0
+    return 1 if n == 1
+    lucas_number(n - 2) + lucas_number(n - 1)
 end
 
 
@@ -50,8 +56,10 @@ end
 # sum_array([5])            # => 5
 # sum_array([5, 2])         # => 7
 # sum_array([4, 10, -1, 2]) # => 15
-def sum_array(array)
 
+def sum_array(array)
+    return 0 if array.length == 0
+    array.pop + sum_array(array)
 end
 
 
@@ -66,8 +74,10 @@ end
 # reverse_string("c")           # => "c"
 # reverse_string("internet")    # => "tenretni"
 # reverse_string("friends")     # => "sdneirf"
-def reverse_string(str)
 
+def reverse_string(str)
+    return "" if str.empty?
+    reverse_string(str[1.. - 1]) + str[0]
 end
 
 
@@ -99,6 +109,35 @@ end
 #     1-dimensional array: ['some data']
 #     2-dimensional array: [['some data']]
 #     3-dimensional array: [[['some data']]]
-def flatten(data)
 
+
+# def flatten(data)
+#     return["hi"] if data == "hi"
+#     flatArr = []
+
+#     (0..data.length).each do |i|
+#         if data[i].kind_of?(Array)
+#             flatArr = flatArr.concat(flatten(data[i].flatten))
+#         else
+#             flatArr << data[i] if data[i] != nil
+#         end
+#     end
+#     flatArr
+# end
+
+def flatten(data)
+       
+        flatArr = []
+
+        (0..data.length).each do |i|
+            if data[i].kind_of?(Array)
+                flatArr = flatArr.concat(flatten(data[i].flatten))
+            else
+                flatArr << data[i] if data[i] != nil
+            end
+        end
+        
+        return [flatArr.join("")] if data.kind_of?(String)
+        flatArr
 end
+    
