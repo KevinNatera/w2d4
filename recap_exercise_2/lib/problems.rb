@@ -1,21 +1,39 @@
 # Write a method, least_common_multiple, that takes in two numbers and returns the smallest number that is a mutiple
 # of both of the given numbers
 def least_common_multiple(num_1, num_2)
-
+    num_1.lcm(num_2)
 end
 
 
 # Write a method, most_frequent_bigram, that takes in a string and returns the two adjacent letters that appear the
 # most in the string.
 def most_frequent_bigram(str)
+    hash = Hash.new(0)
+    maxVal = 0
+    bigram = ""
+    str.each_char.with_index do |char,i|
+        hash[str[i - 1] + char] += 1 if i != 0
+    end
 
+    hash.each do |k,v|
+        if v > maxVal
+            bigram = k 
+            maxVal = v
+        end
+    end
+    bigram
 end
 
 
 class Hash
     # Write a method, Hash#inverse, that returns a new hash where the key-value pairs are swapped
     def inverse
+        hash = Hash.new
 
+        self.each do |k,v|
+            hash[v] = k
+        end
+        hash
     end
 end
 
@@ -23,7 +41,17 @@ end
 class Array
     # Write a method, Array#pair_sum_count, that takes in a target number returns the number of pairs of elements that sum to the given target
     def pair_sum_count(num)
+        counter = 0
 
+        self.each_with_index do |num1, idx1|
+
+            self.each_with_index do |num2,idx2|
+                if idx2 > idx1
+                    counter += 1 if num1 + num2 == num
+                end
+            end
+        end
+        counter
     end
 
     # Write a method, Array#bubble_sort, that takes in an optional proc argument.
@@ -40,6 +68,27 @@ class Array
     #
     # This should remind you of the spaceship operator! Convenient :)
     def bubble_sort(&prc)
+        sorted = false
+        arr = self
 
+        while !sorted
+            sorted = true
+            
+            (0...arr.length - 1).each do |i|
+                if prc != nil
+                    if prc.call(arr[i], arr[i + 1]) > 0
+                        arr[i], arr[i + 1] = arr[i + 1], arr[i]
+                        sorted = false
+                    end
+                else
+                    if arr[i] > arr[i + 1]
+                        arr[i], arr[i + 1] = arr[i + 1], arr[i]
+                        sorted = false
+                    end
+                end
+            end
+        end
+        arr
     end
+
 end
